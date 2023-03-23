@@ -1,0 +1,124 @@
+{
+	"i18n": {
+		"language": {
+			"en": "English",
+			"cs": "Česky"
+		}
+	},
+	"AboutCard": {
+		"Website": "Website",
+		"Vendor": "Vendor"
+	},
+
+	"AccessControlScreen": {
+		"Access details": "Access control",
+		"See your details": "You can see your access permissions here",
+		"Current tenant": "Current tenant",
+		"Resources": "Resources",
+		"Previous screen": "Back to previous screen"
+	},
+	"AccessDeniedCard": {
+		"Access denied": "Access denied",
+		"Please contact application administrator for assigning appropriate access rights.": "Please contact application administrator for assigning appropriate access rights.",
+		"Silly as it sounds, redirection back to login failed": "Silly as it sounds, redirection back to login failed",
+		"Leave": "Leave"
+	},
+	"AuthHeaderDropdown": {
+		"My account": "My account",
+		"Access control": "Access control",
+		"Manage": "Manage",
+		"Change a password": "Change a password",
+		"Logout": "Logout"
+	},
+
+	"ASABServices": {
+		"Can't display data due to parsing error": "Can't display data due to parsing error",
+		"Can't establish websocket connection, data can't be loaded": "Can't establish websocket connection, data can't be loaded",
+		"Services": "Services",
+		"Filter state": "Filter state",
+		"Loading": "Loading",
+		"Service": "Service",
+		"Node ID": "Node ID",
+		"Name": "Name",
+		"Type": "Type",
+		"Version": "Version",
+		"Not defined": "Not defined",
+		"Running": "Running",
+		"Starting": "Starting",
+		"Stopped": "Stopped",
+		"Unknown": "Unknown",
+		"Service action accepted successfully": "Service action accepted successfully",
+		"Service action has been rejected": "Service action has been rejected",
+		"Un-collapse": "Un-collapse",
+		"Collapse": "Collapse",
+		"Start": "Start",
+		"Stop": "Stop",
+		"Restart": "Restart",
+		"Up": "Up",
+		"Return code": "Return code",
+		"Error": "Error",
+		"Exception": "Exception",
+		"Console": "Console",
+		"Detail": "Detail",
+		"Advertised data": "Advertised data"
+	},
+	"HomeContainer": {
+		"Welcome to ASAB Services": "Welcome to ASAB Services"
+	},
+
+	"ASABConfigService": {
+		"Incorrect/invalid config file downloaded": "Incorrect/invalid config file downloaded",
+		"Error when downloading a config file. The path might be corrupted": "Error when downloading a config file. The path might be corrupted"
+	},
+	"ASABApplicationContainer": {
+		"Service URL is undefined, please check service paths passed to axios": "Service URL is undefined, please check service paths passed to axios",
+		"WebSocket URL is undefined, please check service and subpath passed to WebSocket": "WebSocket URL is undefined, please check service and subpath passed to WebSocket",
+		"Advanced mode enabled": "Advanced mode enabled",
+		"Advanced mode disabled": "Advanced mode disabled"
+	},
+	"ASABAuthModule": {
+		"You are not authorized to use this application": "You are not authorized to use this application",
+		"You are in DEV mode and using MOCK login parameters": "You are in DEV mode and using MOCK login parameters",
+		"Your session has expired": "Your session has expired",
+		"Your session will expire soon": "Your session will expire soon"
+	},
+	"ASABTenantModule": {
+		"Invalid tenant": "Invalid tenant :-("
+	},
+	"ASABToolsModule": {
+		"Can't load the configuration, 'config' property has not been specified": "Can't load the configuration, 'config' property has not been specified",
+		"Unable to get config data from service, please check the config settings": "Unable to get config data from service, please check the config settings",
+		"Something went wrong, unable to get config data from service": "Something went wrong, unable to get config data from service"
+	},
+	"ASABCredentials": {
+		"Something went wrong, failed to fetch assigned credentials": "Something went wrong, failed to fetch assigned credentials"
+	},
+	"HelpButton": {
+		"Help": "Help"
+	},
+	"UserInterfaceCard": {
+		"User interface": "User interface",
+		"Build date": "Build date",
+		"Version": "Version",
+		"Repository": "Repository"
+	},
+
+	"Breadcrumbs": {
+		"Home": "Home",
+		"Configuration": "Configuration",
+		"About": "About",
+		"Access control": "Access control"
+	},
+	"Sidebar": {
+		"Home": "Home",
+		"About": "About",
+		"Maintenance": "Maintenance",
+		"Configuration": "Configuration"
+	},
+
+	"Showing item(s)": "{{ from }} - {{ to }} of {{ total }} item(s)",
+	"You do not have access rights to perform this action": "You do not have access rights to perform this action",
+	"Items per page": "Items per page",
+	"Page": "of {{pages}} page",
+	"Pages": "of {{pages}} pages"
+}
