@@ -19,7 +19,7 @@ module.exports = {
 				target: "http://localhost:8080",
 				pathRewrite: { '^/api/seacat_auth': ''}
 			},
-			'/api/asab_remote_control ': {
+			'/api/asab_remote_control': {
 				target: "http://localhost:8083",
 				ws: true,
 				pathRewrite: {'^/api/asab_remote_control': ''}
