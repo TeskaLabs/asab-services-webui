@@ -105,7 +105,7 @@
 
 	"Breadcrumbs": {
 		"Home": "Domů",
-		"Configuration": "Konfigurace",
+		"Services": "Služby",
 		"About": "O aplikaci",
 		"Access control": "Přístupová oprávnění"
 	},
@@ -113,7 +113,7 @@
 		"Home": "Domů",
 		"About": "O Aplikaci",
 		"Maintenance": "Správa",
-		"Configuration": "Konfigurace"
+		"Services": "Služby"
 	},
 
 	"Showing item(s)": "{{ from }} - {{ to }} z {{ total }} položek",

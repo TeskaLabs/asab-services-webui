@@ -105,7 +105,7 @@
 
 	"Breadcrumbs": {
 		"Home": "Home",
-		"Configuration": "Configuration",
+		"Services": "Services",
 		"About": "About",
 		"Access control": "Access control"
 	},
@@ -113,7 +113,7 @@
 		"Home": "Home",
 		"About": "About",
 		"Maintenance": "Maintenance",
-		"Configuration": "Configuration"
+		"Services": "Serevices"
 	},
 
 	"Showing item(s)": "{{ from }} - {{ to }} of {{ total }} item(s)",
