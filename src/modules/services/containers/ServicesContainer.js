@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactJson from 'react-json-view';
 import { useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import { Container, Card, CardBody, CardHeader, Table,
 	InputGroup, InputGroupText, Input, InputGroupAddon,
@@ -164,6 +165,7 @@ export default function ServicesContainer(props) {
 			<Card className="h-100">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
+						<i className="cil-list pr-2"></i>
 						{t("ASABServices|Services")}
 					</div>
 					<Search
@@ -322,7 +324,11 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 					</div>
 				</td>
 				<td>
-					{data[objKey]?.service}
+					<Link
+						to={`services/${data[objKey]?.instance_id}`}
+					>
+						{data[objKey]?.service}
+					</Link>
 				</td>
 				<td>
 					<code className="collapsed-code-value">{data[objKey]?.node_id?.toString()}</code>

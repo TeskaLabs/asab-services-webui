@@ -7,6 +7,46 @@
 
 }
 
+.service-detail-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
+	column-gap: .5rem;
+	row-gap: .25rem;
+
+	grid-template-areas:
+	"a a b b"
+	"a a b b"
+	"a a c c"
+	"a a c c";
+}
+
+.service-detail-changelog {
+	grid-area: a;
+}
+
+.service-detail-info {
+	grid-area: b;
+}
+
+.service-detail-terminal {
+	grid-area: c;
+
+	.log-console {
+		height: 35em;
+		overflow-x: scroll;
+		overflow-y: scroll;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		background-color: $body-bg;
+	}
+
+	.console-body {
+		font-size: 0.72rem;
+	}
+}
+
+
 /* card body styles */
 
 .services-body {
