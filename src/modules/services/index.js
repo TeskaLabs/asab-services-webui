@@ -25,7 +25,7 @@ export default class ServicesModule extends Module {
 					name: "Services",
 					url: "/services",
 					icon: "cil-list",
-					resource: 'lmio:service:access' //TODO: resource may change
+					resource: 'asab:service:access'
 				});
 				isMaintenancePresent = true;
 			}
@@ -41,7 +41,7 @@ export default class ServicesModule extends Module {
 						name: "Services",
 						url: "/services",
 						icon: "cil-list",
-						resource: 'lmio:service:access' //TODO: resource may change
+						resource: 'asab:service:access'
 					}
 				]
 			});
