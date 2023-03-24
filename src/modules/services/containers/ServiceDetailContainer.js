@@ -43,18 +43,21 @@ export default function ServiceDetailContainer(props) {
 					</div>
 				</CardHeader>
 				<CardBody className="log-console">
-					<Table size="sm">
-						<colgroup>
+					<Table size="sm" borderless>
+						{/*<colgroup>
 							<col style={{ width: "14em" }} />
 							<col style={{ width: "3.5em" }} />
-							<col style={{}} />
-							<col style={{}} />
-						</colgroup>
+						</colgroup>*/}
 						<tbody className="text-monospace console-body">
-							{consoleContent.map(function (line, idx) {
+							{/*TODO: remove test lines*/}
+							<tr><td>{"AHOJ JOHA"}</td></tr>
+							<tr><td>{"Some content long content very very long long very very long long very very long"}</td></tr>
+							{/*-----*/}
+							{consoleContent.map((line, idx) => {
 								return (
-									<tr key={idx} className={line.cls}>
-										<td style={{ whiteSpace: "nowrap" }}>{line.t}</td>
+									<tr key={idx}>
+										<td>{line.c}</td>
+										{/*<td style={{ whiteSpace: "nowrap" }}>{line.t}</td>
 										<td style={{ whiteSpace: "nowrap" }}>{line.L}</td>
 										<td>
 											{(line.M != undefined) ?
@@ -64,7 +67,7 @@ export default function ServiceDetailContainer(props) {
 												<span>{JSON.stringify(line.sd)}</span> : null
 											}
 										</td>
-										<td style={{ whiteSpace: "nowrap" }}>{line.C}</td>
+										<td style={{ whiteSpace: "nowrap" }}>{line.C}</td>*/}
 									</tr>
 								)
 							})}

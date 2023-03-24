@@ -33,16 +33,31 @@
 	grid-area: c;
 
 	.log-console {
-		height: 35em;
-		overflow-x: scroll;
-		overflow-y: scroll;
+		overflow-x: auto;
+		overflow-y: auto;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
-		background-color: $body-bg;
-	}
-
-	.console-body {
-		font-size: 0.72rem;
+		background-color: $dark;
+		padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+		.table {
+			.console-body {
+				font-size: 0.72rem;
+				color: $light;
+			}
+			tr {
+				height: 0.72rem !important;
+				background-color: $dark;
+				border: 0;
+				td {
+					height: 0.72rem !important;
+					padding-top: 0;
+					padding-bottom: 0;
+				}
+				td:hover {
+					color: $light;
+				}
+			}
+		}
 	}
 }
 
