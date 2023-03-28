@@ -113,7 +113,7 @@
 		"Home": "Home",
 		"About": "About",
 		"Maintenance": "Maintenance",
-		"Services": "Serevices"
+		"Services": "Services"
 	},
 
 	"Showing item(s)": "{{ from }} - {{ to }} of {{ total }} item(s)",
