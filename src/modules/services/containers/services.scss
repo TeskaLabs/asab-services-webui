@@ -2,6 +2,26 @@
 
 /* container styles */
 
+@media (max-width: 994px) {
+	.service-detail-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		column-gap: .5rem;
+		row-gap: .25rem;
+
+		grid-template-areas:
+			"b b b"
+			"b b b"
+			"c c c"
+			"c c c"
+			"a a a"
+			"a a a"
+			"a a a"
+			"a a a";
+	}
+}
+
 .svcs-container {
 	height: 100%;
 
@@ -15,10 +35,10 @@
 	row-gap: .25rem;
 
 	grid-template-areas:
-	"a a b b"
-	"a a b b"
-	"a a c c"
-	"a a c c";
+		"b b a a"
+		"b b a a"
+		"c c a a"
+		"c c a a";
 }
 
 .service-detail-changelog {
@@ -68,6 +88,11 @@
 	overflow: auto;
 	padding-top: 0 !important;
 	padding-bottom: 0 !important;
+}
+
+.changelog-body {
+	height: 100%;
+	overflow-y: auto;
 }
 
 /* status indicator styles */
