@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactJson from 'react-json-view';
 import { useSelector } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 import { Container, Card, CardBody, CardHeader, Table,
 	InputGroup, InputGroupText, Input, InputGroupAddon,
@@ -10,12 +12,13 @@ import { Container, Card, CardBody, CardHeader, Table,
 
 import { CellContentLoader } from 'asab-webui';
 
-// import ActionButton from "./components/ActionButton";
+import ActionButton from "./components/ActionButton";
 
 export default function ServiceDetailContainer(props) {
 	const { t } = useTranslation();
 
 	const [ consoleContent, setConsoleConent ] = useState([]);
+	const [ changelogContent, setChangelogConent ] = useState("");
 
 	return(
 		<Container className="svcs-container service-detail-wrapper" fluid>
@@ -26,6 +29,14 @@ export default function ServiceDetailContainer(props) {
 						{t("ASABServices|Changelog")}
 					</div>
 				</CardHeader>
+				<CardBody className="changelog-body">
+					<ReactMarkdown
+						rehypePlugins={[rehypeRaw]}
+						width="100%"
+						height="100%"
+						children={changelogContent}
+					/>
+				</CardBody>
 			</Card>
 			<Card className="service-detail-info">
 				<CardHeader className="border-bottom">
@@ -33,6 +44,47 @@ export default function ServiceDetailContainer(props) {
 						<i className="cil-info pr-2"></i>
 						{t("ASABServices|Info")}
 					</div>
+					<ButtonGroup>
+						<ActionButton
+							label={t("ASABServices|Start")}
+							id={`start`}
+							className="action-button"
+							color="primary"
+							outline
+							icon="cil-media-play"
+							// onClick={() => {setAction("start", data[objKey]?.instance_id), setIsSubmitting(true)}}
+							// disabled={isSubmitting == true}
+						/>
+						<ActionButton
+							label={t("ASABServices|Stop")}
+							id={`stop`}
+							className="action-button"
+							color="primary"
+							outline
+							icon="cil-media-stop"
+							// onClick={() => {setAction("stop", data[objKey]?.instance_id), setIsSubmitting(true)}}
+							// disabled={isSubmitting == true}
+						/>
+						<ActionButton
+							label={t("ASABServices|Restart")}
+							id={`restart`}
+							className="action-button"
+							color="primary"
+							outline
+							icon="cil-reload"
+							// onClick={() => {setAction("restart", data[objKey]?.instance_id), setIsSubmitting(true)}}
+							// disabled={isSubmitting == true}
+						/>
+						<ActionButton
+							label={t("ASABServices|Up")}
+							id={`up`}
+							color="primary"
+							outline
+							icon="cil-media-eject"
+							// onClick={() => {setAction("up", data[objKey]?.instance_id), setIsSubmitting(true)}}
+							// disabled={isSubmitting == true}
+						/>
+					</ButtonGroup>
 				</CardHeader>
 			</Card>
 			<Card className="service-detail-terminal">
