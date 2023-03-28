@@ -178,7 +178,7 @@ export default function ServicesContainer(props) {
 					{(loading == true) ?
 						<CellContentLoader cols={6} rows={6} title={t('ASABServices|Loading')}/>
 					:
-						<Table responsive borderless>
+						<Table size="sm" responsive borderless>
 							<colgroup>
 								<col span="1" style={{width: "0.5em"}}/>
 								<col span="1" />
@@ -346,7 +346,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 								label={t("ASABServices|Start")}
 								id={`start-${objKey.replace(/[^\w\s]/gi, '-')}`}
 								className="action-button"
-								color="secondary"
+								color="primary"
 								outline
 								icon="cil-media-play"
 								onClick={() => {setAction("start", data[objKey]?.instance_id), setIsSubmitting(true)}}
@@ -356,7 +356,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 								label={t("ASABServices|Stop")}
 								id={`stop-${objKey.replace(/[^\w\s]/gi, '-')}`}
 								className="action-button"
-								color="secondary"
+								color="primary"
 								outline
 								onClick={() => {setAction("stop", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								icon="cil-media-stop"
@@ -366,7 +366,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 								label={t("ASABServices|Restart")}
 								id={`restart-${objKey.replace(/[^\w\s]/gi, '-')}`}
 								className="action-button"
-								color="secondary"
+								color="primary"
 								outline
 								onClick={() => {setAction("restart", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								icon="cil-reload"
@@ -375,7 +375,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 							<ActionButton
 								label={t("ASABServices|Up")}
 								id={`up-${objKey.replace(/[^\w\s]/gi, '-')}`}
-								color="secondary"
+								color="primary"
 								outline
 								onClick={() => {setAction("up", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								icon="cil-media-eject"
