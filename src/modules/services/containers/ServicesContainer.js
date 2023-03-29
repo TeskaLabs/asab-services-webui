@@ -11,7 +11,7 @@ import { Container, Card, CardBody, CardHeader, Table,
 
 import { CellContentLoader } from 'asab-webui';
 
-import ActionButton from "./components/ActionButton";
+import { ActionIcon } from "./components/ActionButton";
 
 export default function ServicesContainer(props) {
 
@@ -189,21 +189,21 @@ export default function ServicesContainer(props) {
 							</colgroup>
 							<thead>
 								<tr>
-									<th>
+									<th className="th-style">
 									</th>
-									<th>
+									<th className="th-style">
 										{t("ASABServices|Service")}
 									</th>
-									<th>
+									<th className="th-style">
 										{t("ASABServices|Node ID")}
 									</th>
-									<th>
+									<th className="th-style">
 										{t("ASABServices|Name")}
 									</th>
-									<th>
+									<th className="th-style">
 										{t("ASABServices|Version")}
 									</th>
-									<th>
+									<th className="th-style">
 									</th>
 								</tr>
 							</thead>
@@ -329,41 +329,30 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 				<td>
 					<div className="d-flex justify-content-end">
 						<ButtonGroup>
-							<ActionButton
+							<ActionIcon
 								label={t("ASABServices|Start")}
 								id={`start-${objKey.replace(/[^\w\s]/gi, '-')}`}
-								className="action-button"
-								color="primary"
-								outline
 								icon="cil-media-play"
 								onClick={() => {setAction("start", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								disabled={isSubmitting == true}
 							/>
-							<ActionButton
+							<ActionIcon
 								label={t("ASABServices|Stop")}
 								id={`stop-${objKey.replace(/[^\w\s]/gi, '-')}`}
-								className="action-button"
-								color="primary"
-								outline
 								onClick={() => {setAction("stop", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								icon="cil-media-stop"
 								disabled={isSubmitting == true}
 							/>
-							<ActionButton
+							<ActionIcon
 								label={t("ASABServices|Restart")}
 								id={`restart-${objKey.replace(/[^\w\s]/gi, '-')}`}
-								className="action-button"
-								color="primary"
-								outline
 								onClick={() => {setAction("restart", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								icon="cil-reload"
 								disabled={isSubmitting == true}
 							/>
-							<ActionButton
+							<ActionIcon
 								label={t("ASABServices|Up")}
 								id={`up-${objKey.replace(/[^\w\s]/gi, '-')}`}
-								color="primary"
-								outline
 								onClick={() => {setAction("up", data[objKey]?.instance_id), setIsSubmitting(true)}}
 								icon="cil-media-eject"
 								disabled={isSubmitting == true}

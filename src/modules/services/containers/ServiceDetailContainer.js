@@ -12,7 +12,7 @@ import { Container, Card, CardBody, CardHeader, Table,
 
 import { CellContentLoader } from 'asab-webui';
 
-import ActionButton from "./components/ActionButton";
+import { ActionButton } from "./components/ActionButton";
 
 export default function ServiceDetailContainer(props) {
 	const { t } = useTranslation();
@@ -48,7 +48,6 @@ export default function ServiceDetailContainer(props) {
 						<ActionButton
 							label={t("ASABServices|Start")}
 							id={`start`}
-							className="action-button"
 							color="primary"
 							outline
 							icon="cil-media-play"
@@ -58,7 +57,6 @@ export default function ServiceDetailContainer(props) {
 						<ActionButton
 							label={t("ASABServices|Stop")}
 							id={`stop`}
-							className="action-button"
 							color="primary"
 							outline
 							icon="cil-media-stop"
@@ -68,7 +66,6 @@ export default function ServiceDetailContainer(props) {
 						<ActionButton
 							label={t("ASABServices|Restart")}
 							id={`restart`}
-							className="action-button"
 							color="primary"
 							outline
 							icon="cil-reload"

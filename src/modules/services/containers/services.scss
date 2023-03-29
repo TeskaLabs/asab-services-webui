@@ -136,6 +136,10 @@
 	background: $bg-color;
 }
 
+.th-style {
+	height: 16px !important;
+}
+
 /* collapsed table styles */
 
 .collapsed-data {
@@ -189,4 +193,19 @@
 
 .collapsed-span {
 	padding-right: 0.5em;
+}
+
+/* Action icons */
+
+.action-icon {
+	cursor: pointer;
+	color: $primary;
+}
+
+.action-icon:hover {
+	color: $text-secondary-color;
+}
+
+.action-icon-disabled {
+	color: $secondary;
 }
