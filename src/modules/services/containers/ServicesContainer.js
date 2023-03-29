@@ -281,16 +281,8 @@ const DataRow = ({data, props}) => {
 const RowContent = ({props, objKey, data, generateStatus}) => {
 	const { t } = useTranslation();
 	const theme = useSelector(state => state.theme);
-	const [collapseData, setCollapseData] = useState(true);
+	const advmode = useSelector(state => state.advmode?.enabled);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	useEffect(() => {
-		if (data[objKey]?.state && ((data[objKey]?.state == "stopped") || (data[objKey]?.state == "starting"))) {
-			setCollapseData(false);
-		} else {
-			setCollapseData(true);
-		}
-	},[data[objKey]?.state])
 
 	// Action to start, stop, restart and up the container
 	const setAction = async(action, id) => {
@@ -315,11 +307,6 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 			<tr key={objKey}>
 				<td>
 					<div className="caret-status-div">
-					{collapseData ?
-						<span title={t("ASABServices|Un-collapse")} className="caret-icon cil-arrow-circle-right" onClick={() => {setCollapseData(false)}}></span>
-						:
-						<span title={t("ASABServices|Collapse")} className="caret-icon cil-arrow-circle-bottom" onClick={() => {setCollapseData(true)}}></span>
-					}
 					{generateStatus(data[objKey]?.state ? data[objKey].state : undefined)}
 					</div>
 				</td>
@@ -385,138 +372,21 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 					</div>
 				</td>
 			</tr>
-			{!collapseData &&
+			{advmode &&
 				<tr key={`open-${objKey}`} className="collapsed-data">
 					<td colSpan={7}>
-						{data[objKey]?.type ?
-							<div className="collapsed-heading">
-								{t("ASABServices|Type")}: <code className="collapsed-code-value">{data[objKey]?.type?.toString()}</code>
-							</div>
-						:
-							null
-						}
-						{data[objKey]?.returncode?.toString() ?
-							<div className="collapsed-heading">
-								{t("ASABServices|Return code")}: <code className="collapsed-code-value">{data[objKey]?.returncode?.toString()}</code>
-							</div>
-						:
-							null
-						}
-						{data[objKey]?.error ?
-							<div className="collapsed-heading">
-								{t("ASABServices|Error")}: <code className="collapsed-code-value">{data[objKey]?.error?.toString()}</code>
-							</div>
-						:
-							null
-						}
-						{data[objKey]?.exception ?
-							<div className="collapsed-console">
-								<span className="collapsed-heading collapsed-span">
-									{t("ASABServices|Exception")}:
-								</span>
-								<ReactJson
-									src={data[objKey]?.exception}
-									name={false}
-									collapsed={true}
-									displayArrayKey={false}
-									displayDataTypes={false}
-									enableClipboard={false}
-									theme={theme === "dark" ? "chalk" : "rjv-default"}
-								/>
-							</div>
-						:
-							null
-						}
-						{data[objKey]?.console ?
-							<div className="collapsed-console">
-								<span className="collapsed-heading collapsed-span">
-									{t("ASABServices|Console")}:
-								</span>
-								<ReactJson
-									src={data[objKey]?.console}
-									name={false}
-									collapsed={true}
-									displayArrayKey={false}
-									displayDataTypes={false}
-									enableClipboard={false}
-									theme={theme === "dark" ? "chalk" : "rjv-default"}
-								/>
-							</div>
-						:
-							null
-						}
-						{data[objKey]?.detail ?
-							<CollapsedTable
-								obj={data[objKey]?.detail}
-								title={t("ASABServices|Detail")}
+						{data[objKey] &&
+							<ReactJson
+								src={data[objKey]}
+								name={false}
+								collapsed={false}
+								theme={(theme === 'dark') ? "chalk" : "rjv-default"}
 							/>
-						:
-							null
-						}
-						{data[objKey]?.advertised_data ?
-							<CollapsedTable
-								obj={data[objKey]?.advertised_data}
-								title={t("ASABServices|Advertised data")}
-							/>
-						:
-							null
 						}
 					</td>
 				</tr>
 			}
 		</>
-	)
-}
-
-// Method to display collapsed table
-const CollapsedTable = ({obj, title}) => {
-	const theme = useSelector(state => state.theme);
-
-	return(
-		<Table responsive borderless>
-			<thead>
-				<tr className="collapsed-table-row">
-					<th>{title}</th>
-				</tr>
-			</thead>
-			<tbody>
-				{Object.keys(obj).length != 0 && Object.entries(obj).map((itms, idx) => {
-					return(
-						<tr
-							className="collapsed-table-row"
-							key={idx}
-						>
-							<td
-								style={{whiteSpace: "nowrap"}}
-							>
-								<code
-									style={{fontSize: "100%"}}
-									className={itms[0] && itms[0].toString().includes(".") == false ? "code-main-field" : "code-sub-field"}
-								>
-									{itms[0] && itms[0].toString()}
-								</code>
-							</td>
-							<td>
-								{itms[1] ?
-									(typeof itms[1] == "object") && (Object.keys(itms[1]).length > 0) ?
-										<ReactJson
-											src={itms[1]}
-											name={false}
-											collapsed={true}
-											displayDataTypes={false}
-											displayArrayKey={false}
-											enableClipboard={false}
-											theme={theme === 'dark' ? "chalk" : "rjv-default"}
-										/>
-									:
-										<code className="collapsed-code-value">{itms[1] && itms[1].toString()}</code>
-								: "-"}
-							</td>
-						</tr>
-					)
-				})}
-			</tbody>
-		</Table>
 	)
 }
 
