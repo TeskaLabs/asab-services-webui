@@ -29,7 +29,7 @@ export const ActionButton = ({ label, onClick, icon, id, disabled=false,
 				<i className={icon}></i>
 			</ButtonWithAuthz>
 			<Tooltip
-				placement="bottom"
+				placement="top"
 				isOpen={tooltipOpen}
 				target={id}
 				toggle={toggle}

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import ReactJson from 'react-json-view';
 import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
+import rehypeRaw from 'rehype-raw'
+import { useLocation } from 'react-router-dom';;
 
-import { Container, Card, CardBody, CardHeader, Table,
+import { Container, Card, CardBody, CardHeader, CardFooter, Table,
 	InputGroup, InputGroupText, Input, InputGroupAddon,
 	ButtonGroup, Button
 } from 'reactstrap';
@@ -16,9 +17,19 @@ import { ActionButton } from "./components/ActionButton";
 
 export default function ServiceDetailContainer(props) {
 	const { t } = useTranslation();
+	const location = useLocation();
 
 	const [ consoleContent, setConsoleConent ] = useState([]);
 	const [ changelogContent, setChangelogConent ] = useState("");
+
+	// Extract service name from location
+	const serviceName = useMemo(() => {
+		if (location.pathname) {
+			const svc = location.pathname.replace("/services/", "");
+			return svc;
+		}
+		return undefined;
+	}, [location])
 
 	return(
 		<Container className="svcs-container service-detail-wrapper" fluid>
@@ -42,8 +53,12 @@ export default function ServiceDetailContainer(props) {
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
 						<i className="cil-info pr-2"></i>
-						{t("ASABServices|Info")}
+						{serviceName ? serviceName : t("ASABServices|Info")}
 					</div>
+				</CardHeader>
+				<CardBody className="h-100">
+				</CardBody>
+				<CardFooter>
 					<ButtonGroup>
 						<ActionButton
 							label={t("ASABServices|Start")}
@@ -82,7 +97,7 @@ export default function ServiceDetailContainer(props) {
 							// disabled={isSubmitting == true}
 						/>
 					</ButtonGroup>
-				</CardHeader>
+				</CardFooter>
 			</Card>
 			<Card className="service-detail-terminal">
 				<CardHeader className="border-bottom">
