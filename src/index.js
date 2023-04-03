@@ -46,15 +46,12 @@ import AboutModule from 'asab-webui/modules/about';
 modules.push(AboutModule);
 
 // Load custom modules
-import HomeModule from './modules/home';
-modules.push(HomeModule);
-
 import ServicesModule from './modules/services';
 modules.push(ServicesModule);
 
 // Render
 ReactDOM.render((
 	<HashRouter>
-		<Application modules={modules} defaultpath="/home" configdefaults={ConfigDefaults}/>
+		<Application modules={modules} defaultpath="/services" configdefaults={ConfigDefaults}/>
 	</HashRouter>
 ), document.getElementById('app'));

@@ -62,9 +62,6 @@
 		"Detail": "Detail",
 		"Advertised data": "Advertised data"
 	},
-	"HomeContainer": {
-		"Welcome to ASAB Services": "Vítejte v ASAB Services"
-	},
 
 	"ASABConfigService": {
 		"Incorrect/invalid config file downloaded": "Došlo ke stažení neplatné konfigurace",
