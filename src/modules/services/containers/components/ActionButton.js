@@ -5,7 +5,7 @@ import { ButtonWithAuthz } from 'asab-webui';
 import { useTranslation } from "react-i18next";
 
 export const ActionButton = ({ label, onClick, icon, id, disabled=false,
-	color="", outline=true }) => {
+	color="", outline=false }) => {
 
 	const [tooltipOpen, setTooltipOpen] = useState(false);
 	const resource = "asab:service:manage";

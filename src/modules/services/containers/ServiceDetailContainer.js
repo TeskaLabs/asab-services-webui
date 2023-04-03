@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw'
 import { useLocation } from 'react-router-dom';;
 
-import { Container, Card, CardBody, CardHeader, CardFooter, Table,
+import { Container, Card, CardBody, CardHeader, Table,
 	InputGroup, InputGroupText, Input, InputGroupAddon,
 	ButtonGroup, Button
 } from 'reactstrap';
@@ -58,13 +58,18 @@ export default function ServiceDetailContainer(props) {
 				</CardHeader>
 				<CardBody className="h-100">
 				</CardBody>
-				<CardFooter>
+			</Card>
+			<Card className="service-detail-terminal">
+				<CardHeader className="border-bottom">
+					<div className="card-header-title">
+						<i className="cil-terminal pr-2"></i>
+						{t("ASABServices|Terminal")}
+					</div>
 					<ButtonGroup>
 						<ActionButton
 							label={t("ASABServices|Start")}
 							id={`start`}
 							color="primary"
-							outline
 							icon="cil-media-play"
 							// onClick={() => {setAction("start", data[objKey]?.instance_id), setIsSubmitting(true)}}
 							// disabled={isSubmitting == true}
@@ -97,14 +102,6 @@ export default function ServiceDetailContainer(props) {
 							// disabled={isSubmitting == true}
 						/>
 					</ButtonGroup>
-				</CardFooter>
-			</Card>
-			<Card className="service-detail-terminal">
-				<CardHeader className="border-bottom">
-					<div className="card-header-title">
-						<i className="cil-terminal pr-2"></i>
-						{t("ASABServices|Terminal")}
-					</div>
 				</CardHeader>
 				<CardBody className="log-console">
 					<Table size="sm" borderless>
