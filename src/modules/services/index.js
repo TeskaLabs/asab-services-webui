@@ -14,6 +14,7 @@ export default class ServicesModule extends Module {
 			exact: true,
 			name: "Services",
 			component: ServicesContainer,
+			resource: 'asab:service:access'
 		});
 
 		app.Router.addRoute({
@@ -21,6 +22,7 @@ export default class ServicesModule extends Module {
 			exact: true,
 			name: "Service detail",
 			component: ServiceDetailContainer,
+			resource: 'asab:service:access'
 		});
 
 		// Check presence of Maintenance item in sidebar
