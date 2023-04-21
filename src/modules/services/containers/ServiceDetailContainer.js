@@ -22,6 +22,8 @@ export default function ServiceDetailContainer(props) {
 	const [ consoleContent, setConsoleConent ] = useState([]);
 	const [ changelogContent, setChangelogConent ] = useState("");
 
+	const ASABRemoteControlAPI = props.app.axiosCreate('asab_remote_control');
+
 	// Extract service name from location
 	const serviceName = useMemo(() => {
 		if (location.pathname) {
@@ -30,6 +32,35 @@ export default function ServiceDetailContainer(props) {
 		}
 		return undefined;
 	}, [location])
+
+	useEffect(() => {
+		if (serviceName) {
+			obtainChangelog(serviceName);
+			obtainMetrics(serviceName);
+		}
+	}, [serviceName])
+
+	// Obtain changelog
+	const obtainChangelog = async (serviceName) => {
+		try {
+			let response = await ASABRemoteControlAPI.get(`/${serviceName}/asab/v1/changelog`);
+			console.log(response, "RESPONSE")
+		} catch(e) {
+			console.error(e);
+		}
+	}
+
+	// Obtain metrics
+	const obtainMetrics = async (serviceName) => {
+		try {
+			let response = await ASABRemoteControlAPI.get(`/${serviceName}/asab/v1/metrics.json`);
+			console.log(response, "RESPONSE")
+		} catch(e) {
+			console.error(e);
+		}
+	}
+
+	// TODO: obtain logs (ws)
 
 	return(
 		<Container className="svcs-container service-detail-wrapper" fluid>
