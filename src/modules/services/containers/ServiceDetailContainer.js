@@ -24,6 +24,8 @@ export default function ServiceDetailContainer(props) {
 
 	const ASABRemoteControlAPI = props.app.axiosCreate('asab_remote_control');
 
+	const ASABSwitcherAPI = props.app.axiosCreate('asab_switcher');
+
 	// Extract service name from location
 	const serviceName = useMemo(() => {
 		if (location.pathname) {
@@ -43,8 +45,9 @@ export default function ServiceDetailContainer(props) {
 	// Obtain changelog
 	const obtainChangelog = async (serviceName) => {
 		try {
-			let response = await ASABRemoteControlAPI.get(`/${serviceName}/asab/v1/changelog`);
+			let response = await ASABSwitcherAPI.get(`/${serviceName}/asab/v1/changelog`);
 			console.log(response, "RESPONSE")
+			setChangelogConent(response.data);
 		} catch(e) {
 			console.error(e);
 		}
@@ -53,7 +56,7 @@ export default function ServiceDetailContainer(props) {
 	// Obtain metrics
 	const obtainMetrics = async (serviceName) => {
 		try {
-			let response = await ASABRemoteControlAPI.get(`/${serviceName}/asab/v1/metrics.json`);
+			let response = await ASABSwitcherAPI.get(`/${serviceName}/asab/v1/metrics.json`);
 			console.log(response, "RESPONSE")
 		} catch(e) {
 			console.error(e);
@@ -61,7 +64,7 @@ export default function ServiceDetailContainer(props) {
 	}
 
 	// TODO: obtain logs (ws)
-
+	console.log(changelogContent, ":CHANGELOG")
 	return(
 		<Container className="svcs-container service-detail-wrapper" fluid>
 			<Card className="service-detail-changelog">
