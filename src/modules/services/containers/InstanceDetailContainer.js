@@ -15,37 +15,40 @@ import { CellContentLoader } from 'asab-webui';
 
 import { ActionButton } from "./components/ActionButton";
 
-export default function ServiceDetailContainer(props) {
+export default function InstanceDetailContainer(props) {
 	const { t } = useTranslation();
 	const location = useLocation();
 
 	const [ consoleContent, setConsoleConent ] = useState([]);
 	const [ changelogContent, setChangelogConent ] = useState("");
 
-	const ASABRemoteControlAPI = props.app.axiosCreate('asab_remote_control');
+	// const ASABRemoteControlAPI = props.app.axiosCreate('asab-remote-control');
 
-	const ASABSwitcherAPI = props.app.axiosCreate('asab_switcher');
 
 	// Extract service name from location
-	const serviceName = useMemo(() => {
+	const instanceID = useMemo(() => {
 		if (location.pathname) {
-			const svc = location.pathname.replace("/services/", "");
+			// TODO: transform dashes to underscore for dynamic instance inputs (ikdyz mozna ne)
+			const svc = location.pathname.replace("/services/instance/", "");
 			return svc;
 		}
 		return undefined;
 	}, [location])
 
+	// asab_library_1
+	const InstanceServiceAPI = instanceID ? props.app.axiosCreate(instanceID) : "";
+
 	useEffect(() => {
-		if (serviceName) {
-			obtainChangelog(serviceName);
-			obtainMetrics(serviceName);
+		if (instanceID) {
+			obtainChangelog();
+			obtainMetrics();
 		}
-	}, [serviceName])
+	}, [instanceID])
 
 	// Obtain changelog
-	const obtainChangelog = async (serviceName) => {
+	const obtainChangelog = async () => {
 		try {
-			let response = await ASABSwitcherAPI.get(`/${serviceName}/asab/v1/changelog`);
+			let response = await InstanceServiceAPI.get(`/asab/v1/changelog`);
 			console.log(response, "RESPONSE")
 			setChangelogConent(response.data);
 		} catch(e) {
@@ -54,9 +57,9 @@ export default function ServiceDetailContainer(props) {
 	}
 
 	// Obtain metrics
-	const obtainMetrics = async (serviceName) => {
+	const obtainMetrics = async () => {
 		try {
-			let response = await ASABSwitcherAPI.get(`/${serviceName}/asab/v1/metrics.json`);
+			let response = await InstanceServiceAPI.get(`/asab/v1/metrics.json`);
 			console.log(response, "RESPONSE")
 		} catch(e) {
 			console.error(e);
@@ -66,8 +69,8 @@ export default function ServiceDetailContainer(props) {
 	// TODO: obtain logs (ws)
 	console.log(changelogContent, ":CHANGELOG")
 	return(
-		<Container className="svcs-container service-detail-wrapper" fluid>
-			<Card className="service-detail-changelog">
+		<Container className="svcs-container instance-detail-wrapper" fluid>
+			<Card className="instance-detail-changelog">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
 						<i className="cil-description pr-2"></i>
@@ -83,17 +86,17 @@ export default function ServiceDetailContainer(props) {
 					/>
 				</CardBody>
 			</Card>
-			<Card className="service-detail-info">
+			<Card className="instance-detail-info">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
 						<i className="cil-info pr-2"></i>
-						{serviceName ? serviceName : t("ASABServices|Info")}
+						{instanceID ? instanceID : t("ASABServices|Info")}
 					</div>
 				</CardHeader>
 				<CardBody className="h-100">
 				</CardBody>
 			</Card>
-			<Card className="service-detail-terminal">
+			<Card className="instance-detail-terminal">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
 						<i className="cil-terminal pr-2"></i>

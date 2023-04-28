@@ -15,14 +15,23 @@ module.exports = {
 	webpackDevServer: {
 		port: 3020,
 		proxy: {
-			'/api/seacat_auth': {
+			'/api/seacat-auth': {
 				target: "http://localhost:8080",
 				pathRewrite: { '^/api/seacat_auth': ''}
 			},
-			'/api/asab_remote_control': {
+			'/api/asab-remote-control': {
 				target: "http://localhost:8083",
 				ws: true,
-				pathRewrite: {'^/api/asab_remote_control': ''}
+				pathRewrite: {'^/api/asab-remote-control': ''}
+			},
+			'/api/asab-remote-control-1': {
+				target: "http://localhost:8084"
+			},
+			'/api/asab-library-1': {
+				target: "http://localhost:8084"
+			},
+			'/api/asab-config-1': {
+				target: "http://localhost:8084"
 			},
 		}
 	}

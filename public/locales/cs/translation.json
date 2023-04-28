@@ -103,7 +103,7 @@
 	"Breadcrumbs": {
 		"Home": "Domů",
 		"Services": "Služby",
-		"Service detail": "Detail služby",
+		"Instance detail": "Detail instance",
 		"About": "O aplikaci",
 		"Access control": "Přístupová oprávnění"
 	},

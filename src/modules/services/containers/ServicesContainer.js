@@ -29,7 +29,7 @@ export default function ServicesContainer(props) {
 
 	// Set up websocket connection
 	let wsSubPath = '/ws';
-	const serviceName = 'asab_remote_control';
+	const serviceName = 'asab-remote-control';
 	let WSUrl = props.app.getWebSocketURL(serviceName, wsSubPath);
 	let WSClient = null;
 
@@ -312,7 +312,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 				</td>
 				<td>
 					<Link
-						to={`services/${data[objKey]?.instance_id}`}
+						to={`services/instance/${data[objKey]?.instance_id}`}
 					>
 						{data[objKey]?.service}
 					</Link>

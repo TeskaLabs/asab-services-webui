@@ -1,7 +1,7 @@
 import React, { Component, lazy } from 'react';
 import Module from 'asab-webui/abc/Module';
 const ServicesContainer = lazy(() => import("./containers/ServicesContainer"));
-const ServiceDetailContainer = lazy(() => import("./containers/ServiceDetailContainer"));
+const InstanceDetailContainer = lazy(() => import("./containers/InstanceDetailContainer"));
 
 import "./containers/services.scss";
 
@@ -18,10 +18,10 @@ export default class ServicesModule extends Module {
 		});
 
 		app.Router.addRoute({
-			path: "/services/:instance_id", //TODO: ch
+			path: "/services/instance/:instance_id",
 			exact: true,
-			name: "Service detail",
-			component: ServiceDetailContainer,
+			name: "Instance detail",
+			component: InstanceDetailContainer,
 			resource: 'asab:service:access'
 		});
 

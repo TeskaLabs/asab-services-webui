@@ -3,7 +3,7 @@
 /* container styles */
 
 @media (max-width: 994px) {
-	.service-detail-wrapper {
+	.instance-detail-wrapper {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -27,7 +27,7 @@
 
 }
 
-.service-detail-wrapper {
+.instance-detail-wrapper {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -41,15 +41,15 @@
 		"c c a a";
 }
 
-.service-detail-changelog {
+.instance-detail-changelog {
 	grid-area: a;
 }
 
-.service-detail-info {
+.instance-detail-info {
 	grid-area: b;
 }
 
-.service-detail-terminal {
+.instance-detail-terminal {
 	grid-area: c;
 
 	.log-console {
