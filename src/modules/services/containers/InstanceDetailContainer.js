@@ -4,7 +4,7 @@ import ReactJson from 'react-json-view';
 import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw'
-import { useLocation } from 'react-router-dom';;
+import { useLocation } from 'react-router-dom';
 
 import { Container, Card, CardBody, CardHeader, Table,
 	InputGroup, InputGroupText, Input, InputGroupAddon,
@@ -21,6 +21,8 @@ export default function InstanceDetailContainer(props) {
 
 	const [ consoleContent, setConsoleConent ] = useState([]);
 	const [ changelogContent, setChangelogConent ] = useState("");
+	const [ changelogLoading, setChangelogLoading ] = useState(true);
+	const [ metricsLoading, setMetricsLoading ] = useState(true);
 
 	// const ASABRemoteControlAPI = props.app.axiosCreate('asab-remote-control');
 
@@ -54,6 +56,7 @@ export default function InstanceDetailContainer(props) {
 		} catch(e) {
 			console.error(e);
 		}
+		setChangelogLoading(false);
 	}
 
 	// Obtain metrics
@@ -64,10 +67,10 @@ export default function InstanceDetailContainer(props) {
 		} catch(e) {
 			console.error(e);
 		}
+		setMetricsLoading(false);
 	}
 
 	// TODO: obtain logs (ws)
-	console.log(changelogContent, ":CHANGELOG")
 	return(
 		<Container className="svcs-container instance-detail-wrapper" fluid>
 			<Card className="instance-detail-changelog">
@@ -78,12 +81,16 @@ export default function InstanceDetailContainer(props) {
 					</div>
 				</CardHeader>
 				<CardBody className="changelog-body">
-					<ReactMarkdown
-						rehypePlugins={[rehypeRaw]}
-						width="100%"
-						height="100%"
-						children={changelogContent}
-					/>
+					{changelogLoading ?
+						<CellContentLoader cols={1} rows={20} />
+					:
+						<ReactMarkdown
+							rehypePlugins={[rehypeRaw]}
+							width="100%"
+							height="100%"
+							children={changelogContent}
+						/>
+					}
 				</CardBody>
 			</Card>
 			<Card className="instance-detail-info">
@@ -94,6 +101,11 @@ export default function InstanceDetailContainer(props) {
 					</div>
 				</CardHeader>
 				<CardBody className="h-100">
+					{metricsLoading ?
+						<CellContentLoader cols={1} rows={6} />
+					:
+						<div>Kde nic neni ani smrt nebere</div>
+					}
 				</CardBody>
 			</Card>
 			<Card className="instance-detail-terminal">

@@ -192,7 +192,7 @@ export default function ServicesContainer(props) {
 									<th className="th-style">
 									</th>
 									<th className="th-style">
-										{t("ASABServices|Service")}
+										{t("ASABServices|Instance")}
 									</th>
 									<th className="th-style">
 										{t("ASABServices|Node ID")}
@@ -294,10 +294,10 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 			if (response.data.result != "Accepted") {
 				throw new Error(`Something went wrong, failed to ${action} container`);
 			}
-			props.app.addAlert("success", t("ASABServices|Service action accepted successfully"));
+			props.app.addAlert("success", t("ASABServices|Instance action accepted successfully"));
 		} catch(e) {
 			console.error(e);
-			props.app.addAlert("warning", `${t("ASABServices|Service action has been rejected")}. ${e?.response?.data?.message}`, 30);
+			props.app.addAlert("warning", `${t("ASABServices|Instance action has been rejected")}. ${e?.response?.data?.message}`, 30);
 		}
 		setIsSubmitting(false);
 	}
