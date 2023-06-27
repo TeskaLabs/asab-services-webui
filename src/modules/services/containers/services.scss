@@ -15,8 +15,8 @@
 			"b b b"
 			"c c c"
 			"c c c"
-			"a a a"
-			"a a a"
+			"d d d"
+			"d d d"
 			"a a a"
 			"a a a";
 	}
@@ -35,8 +35,8 @@
 	row-gap: .25rem;
 
 	grid-template-areas:
-		"b b a a"
-		"b b a a"
+		"b b d d"
+		"b b d d"
 		"c c a a"
 		"c c a a";
 }
@@ -45,7 +45,7 @@
 	grid-area: a;
 }
 
-.instance-detail-info {
+.instance-detail-metrics {
 	grid-area: b;
 }
 
@@ -79,6 +79,10 @@
 			}
 		}
 	}
+}
+
+.instance-detail-info {
+	grid-area: d;
 }
 
 

@@ -12,6 +12,7 @@ import { Container, Card, CardBody, CardHeader, Table,
 import { CellContentLoader } from 'asab-webui';
 
 import { ActionIcon } from "./components/ActionButton";
+import { IsJsonString } from "./components/IsJsonString";
 
 export default function ServicesContainer(props) {
 
@@ -176,7 +177,7 @@ export default function ServicesContainer(props) {
 				</CardHeader>
 				<CardBody className="h-100 services-body">
 					{(loading == true) ?
-						<CellContentLoader cols={6} rows={6} title={t('ASABServices|Loading')}/>
+						<CellContentLoader cols={5} rows={6} title={t('ASABServices|Loading')}/>
 					:
 						<Table size="sm" responsive borderless>
 							<colgroup>
@@ -185,7 +186,7 @@ export default function ServicesContainer(props) {
 								<col span="1" />
 								<col span="1" />
 								<col span="1" />
-								<col span="1" />
+								{/*TODO: Remove action buttons if not needed<col span="1" />*/}
 							</colgroup>
 							<thead>
 								<tr>
@@ -203,14 +204,15 @@ export default function ServicesContainer(props) {
 									<th className="th-style">
 										{t("ASABServices|Version")}
 									</th>
+									{/*TODO: Remove action buttons if not needed
 									<th className="th-style">
-									</th>
+									</th>*/}
 								</tr>
 							</thead>
 							<tbody>
 							{(error == true) ?
 								<tr>
-									<td className="td-style" colSpan="7">{errorMsg}</td>
+									<td className="td-style" colSpan="6">{errorMsg}</td>
 								</tr>
 								:
 								<DataRow data={filteredData != undefined ? filteredData : data} props={props} />
@@ -326,7 +328,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 				<td>
 					{data[objKey]?.advertised_data?.version ? data[objKey]?.advertised_data?.version : data[objKey]?.version ? data[objKey]?.version : "N/A"}
 				</td>
-				<td>
+				{/*TODO: Remove action buttons if not needed <td>
 					<div className="d-flex justify-content-end">
 						<ButtonGroup>
 							<ActionIcon
@@ -359,7 +361,7 @@ const RowContent = ({props, objKey, data, generateStatus}) => {
 							/>
 						</ButtonGroup>
 					</div>
-				</td>
+				</td>*/}
 			</tr>
 			{advmode &&
 				<tr key={`open-${objKey}`} className="collapsed-data">
@@ -401,14 +403,4 @@ const Search = ({ search, filterValue, setFilterValue }) => {
 			</InputGroup>
 		</div>
 	);
-}
-
-// Check if string is valid JSON
-function IsJsonString(str) {
-	try {
-		JSON.parse(str);
-	} catch (e) {
-		return false;
-	}
-	return true;
 }

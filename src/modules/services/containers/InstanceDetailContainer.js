@@ -14,18 +14,109 @@ import { Container, Card, CardBody, CardHeader, Table,
 import { CellContentLoader } from 'asab-webui';
 
 import { ActionButton } from "./components/ActionButton";
+import { IsJsonString } from "./components/IsJsonString";
 
 export default function InstanceDetailContainer(props) {
 	const { t } = useTranslation();
 	const location = useLocation();
 
+	const theme = useSelector(state => state.theme);
+
 	const [ consoleContent, setConsoleConent ] = useState([]);
 	const [ changelogContent, setChangelogConent ] = useState("");
 	const [ changelogLoading, setChangelogLoading ] = useState(true);
 	const [ metricsLoading, setMetricsLoading ] = useState(true);
+	const [ detailLoading, setDetailLoading] = useState(true);
+
+	const [ detailWSData, setDetailWSData ] = useState({});
+	const [ wsInstanceDetailSubPath, setWsInstanceDetailSubpath ] = useState(undefined);
 
 	// const ASABRemoteControlAPI = props.app.axiosCreate('asab-remote-control');
 
+	const serviceName = 'asab-remote-control';
+
+	/* WS for detail info of the instance */
+	let WSInstanceDetailUrl = undefined;
+	let WSInstanceDetailClient = null;
+	const isInstanceDetailMounted = useRef(null);
+
+	useEffect(() => {
+		if (instanceID) {
+			setWsInstanceDetailSubpath(`/ws?instance_id=${instanceID}`);
+		}
+	}, [instanceID])
+
+	// Connect to ws on page initialization, close ws connection on page leave
+	useEffect(() => {
+		if (wsInstanceDetailSubPath != undefined) {
+			WSInstanceDetailUrl = props.app.getWebSocketURL(serviceName, wsInstanceDetailSubPath);
+			isInstanceDetailMounted.current = true;
+
+			if (WSInstanceDetailUrl != undefined) {
+				reconnectInstanceDetail();
+			}
+		}
+
+		return () => {
+			if (WSInstanceDetailClient != null) {
+				try {
+					WSInstanceDetailClient.close();
+				} catch (e) {
+					console.log("Ignored exception: ", e)
+				}
+			}
+
+			isInstanceDetailMounted.current = false;
+		}
+	}, [wsInstanceDetailSubPath]);
+
+
+	// Reconnect ws method
+	const reconnectInstanceDetail = () => {
+		if (WSInstanceDetailClient != null) {
+			try {
+				WSInstanceDetailClient.close();
+			} catch (e) {
+				console.log("Ignored exception: ", e)
+			}
+		}
+
+		if (isInstanceDetailMounted.current === false) return;
+
+		WSInstanceDetailClient = props.app.createWebSocket(serviceName, wsInstanceDetailSubPath);
+
+		// TODO: remove onopen
+		WSInstanceDetailClient.onopen = () => {
+			console.log('ws instance detail connection open');
+		}
+
+		WSInstanceDetailClient.onmessage = (message) => {
+			setDetailLoading(false);
+			if (IsJsonString(message.data) == true) {
+				let retrievedData = JSON.parse(message.data);
+				if (retrievedData && Object.keys(retrievedData)) {
+					// Set websocket data
+					setDetailWSData(retrievedData);
+				}
+				// setError(false);
+			} else {
+				// setErrorMsg(t("ASABServices|Can't display data due to parsing error"));
+				// setError(true);
+				console.error("Can't display data due to parsing error");
+			}
+		};
+
+		WSInstanceDetailClient.onerror = (error) => {
+			setDetailLoading(false);
+			// setErrorMsg(t("ASABServices|Can't establish websocket connection, data can't be loaded"));
+			// setError(true);
+			console.error("Can't establish websocket connection, data can't be loaded");
+			setTimeout(() => {
+				reconnectInstanceDetail();
+			}, 3000, this);
+		};
+	}
+	/* End of WS for detail info of the instance */
 
 	// Extract service name from location
 	const instanceID = useMemo(() => {
@@ -73,6 +164,26 @@ export default function InstanceDetailContainer(props) {
 	// TODO: obtain logs (ws)
 	return(
 		<Container className="svcs-container instance-detail-wrapper" fluid>
+			<Card className="instance-detail-info">
+				<CardHeader className="border-bottom">
+					<div className="card-header-title">
+						<i className="cil-info pr-2"></i>
+						{t("ASABServices|Detail info")}
+					</div>
+				</CardHeader>
+				<CardBody className="changelog-body">
+					{metricsLoading ?
+						<CellContentLoader cols={1} rows={6} />
+					:
+						<ReactJson
+							src={detailWSData}
+							name={false}
+							collapsed={false}
+							theme={(theme === 'dark') ? "chalk" : "rjv-default"}
+						/>
+					}
+				</CardBody>
+			</Card>
 			<Card className="instance-detail-changelog">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
@@ -93,18 +204,18 @@ export default function InstanceDetailContainer(props) {
 					}
 				</CardBody>
 			</Card>
-			<Card className="instance-detail-info">
+			<Card className="instance-detail-metrics">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
 						<i className="cil-info pr-2"></i>
-						{instanceID ? instanceID : t("ASABServices|Info")}
+						{instanceID ? instanceID : t("ASABServices|Metrics")}
 					</div>
 				</CardHeader>
 				<CardBody className="h-100">
 					{metricsLoading ?
 						<CellContentLoader cols={1} rows={6} />
 					:
-						<div>Kde nic neni ani smrt nebere</div>
+						<div>Kde nic neni ani metriky nebudou</div>
 					}
 				</CardBody>
 			</Card>
@@ -114,7 +225,7 @@ export default function InstanceDetailContainer(props) {
 						<i className="cil-terminal pr-2"></i>
 						{t("ASABServices|Terminal")}
 					</div>
-					<ButtonGroup>
+					{/*TODO: Remove action buttons if not needed<ButtonGroup>
 						<ActionButton
 							label={t("ASABServices|Start")}
 							id={`start`}
@@ -150,7 +261,7 @@ export default function InstanceDetailContainer(props) {
 							// onClick={() => {setAction("up", data[objKey]?.instance_id), setIsSubmitting(true)}}
 							// disabled={isSubmitting == true}
 						/>
-					</ButtonGroup>
+					</ButtonGroup>*/}
 				</CardHeader>
 				<CardBody className="log-console">
 					<Table size="sm" borderless>
