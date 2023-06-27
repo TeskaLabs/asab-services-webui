@@ -31,20 +31,16 @@ export default function InstanceDetailContainer(props) {
 	const [ detailWSData, setDetailWSData ] = useState({});
 	const [ wsInstanceDetailSubPath, setWsInstanceDetailSubpath ] = useState(undefined);
 
-	// const ASABRemoteControlAPI = props.app.axiosCreate('asab-remote-control');
+	const [ governatorID, setGovernatorID ] = useState(undefined);
+	const [ terminalArray, setTerminalArray] = useState([]);
 
 	const serviceName = 'asab-remote-control';
+	const ASABRemoteControlAPI = props.app.axiosCreate(serviceName);
 
 	/* WS for detail info of the instance */
 	let WSInstanceDetailUrl = undefined;
 	let WSInstanceDetailClient = null;
 	const isInstanceDetailMounted = useRef(null);
-
-	useEffect(() => {
-		if (instanceID) {
-			setWsInstanceDetailSubpath(`/ws?instance_id=${instanceID}`);
-		}
-	}, [instanceID])
 
 	// Connect to ws on page initialization, close ws connection on page leave
 	useEffect(() => {
@@ -118,6 +114,87 @@ export default function InstanceDetailContainer(props) {
 	}
 	/* End of WS for detail info of the instance */
 
+
+	/* WS for Terminal */
+	let WSTerminalUrl = undefined;
+	let WSTerminalClient = null;
+	const isTerminalMounted = useRef(null);
+
+	// Connect to ws on page initialization, close ws connection on page leave
+	useEffect(() => {
+		if (governatorID != undefined) {
+			let WSTerminalUrl = props.app.getWebSocketURL(governatorID, `/${instanceID}/ws`);
+			isTerminalMounted.current = true;
+
+			if (WSTerminalUrl != undefined) {
+				reconnectTerminal();
+			}
+		}
+
+		return () => {
+			if (WSTerminalClient != null) {
+				try {
+					WSTerminalClient.close();
+				} catch (e) {
+					console.log("Ignored exception: ", e)
+				}
+			}
+
+			isTerminalMounted.current = false;
+		}
+	}, [governatorID]);
+
+
+	// Reconnect ws method
+	const reconnectTerminal = () => {
+		if (WSTerminalClient != null) {
+			try {
+				WSTerminalClient.close();
+			} catch (e) {
+				console.log("Ignored exception: ", e)
+			}
+		}
+
+		if (isTerminalMounted.current === false) return;
+
+		WSTerminalClient = props.app.createWebSocket(governatorID, `/${instanceID}/ws`);
+
+		// TODO: remove onopen
+		WSTerminalClient.onopen = () => {
+			console.log('ws terminal connection open');
+		}
+
+		WSTerminalClient.onmessage = (message) => {
+			console.log(message.data, "TERMINAL")
+			setTerminalArray(prevArray => [...prevArray, message.data]);
+			// setDetailLoading(false);
+			// if (IsJsonString(message.data) == true) {
+			// 	let retrievedData = JSON.parse(message.data);
+			// 	if (retrievedData && Object.keys(retrievedData)) {
+			// 		console.log(retrievedData, "TERMINAL")
+			// 		// Set websocket data
+			// 		// setTerminalWSData({..., retrievedData});
+			// 	}
+			// 	// setError(false);
+			// } else {
+			// 	// setErrorMsg(t("ASABServices|Can't display data due to parsing error"));
+			// 	// setError(true);
+			// 	console.error("Can't display data due to parsing error");
+			// }
+		};
+
+		WSTerminalClient.onerror = (error) => {
+			// setDetailLoading(false);
+			// setErrorMsg(t("ASABServices|Can't establish websocket connection, data can't be loaded"));
+			// setError(true);
+			console.error("Can't establish websocket connection, data can't be loaded");
+			setTimeout(() => {
+				reconnectTerminal();
+			}, 3000, this);
+		};
+	}
+	/* End of WS for terminal */
+
 	// Extract service name from location
 	const instanceID = useMemo(() => {
 		if (location.pathname) {
@@ -133,10 +210,23 @@ export default function InstanceDetailContainer(props) {
 
 	useEffect(() => {
 		if (instanceID) {
+			setWsInstanceDetailSubpath(`/ws?instance_id=${instanceID}`);
 			obtainChangelog();
 			obtainMetrics();
+			obtainGovernatorID();
 		}
 	}, [instanceID])
+
+
+	const obtainGovernatorID = async () => {
+		try {
+			let response = await ASABRemoteControlAPI.get(`/governator/${instanceID}`);
+			console.log(response.data, "AHOOOJ")
+			setGovernatorID(response.data.data);
+		} catch(e) {
+			console.error(e);
+		}
+	}
 
 	// Obtain changelog
 	const obtainChangelog = async () => {
@@ -265,33 +355,13 @@ export default function InstanceDetailContainer(props) {
 				</CardHeader>
 				<CardBody className="log-console">
 					<Table size="sm" borderless>
-						{/*<colgroup>
-							<col style={{ width: "14em" }} />
-							<col style={{ width: "3.5em" }} />
-						</colgroup>*/}
+						{/*TODO: add auto scroll to the bottom*/}
 						<tbody className="text-monospace console-body">
-							{/*TODO: remove test lines*/}
-							<tr><td>{"AHOJ JOHA"}</td></tr>
-							<tr><td>{"Some content long content very very long long very very long long very very long"}</td></tr>
-							{/*-----*/}
-							{consoleContent.map((line, idx) => {
-								return (
-									<tr key={idx}>
-										<td>{line.c}</td>
-										{/*<td style={{ whiteSpace: "nowrap" }}>{line.t}</td>
-										<td style={{ whiteSpace: "nowrap" }}>{line.L}</td>
-										<td>
-											{(line.M != undefined) ?
-												<pre style={{ color: "inherit", fontSize: "inherit", margin: "0" }}>{line.M}</pre> : null
-											}
-											{(line.sd != undefined) ?
-												<span>{JSON.stringify(line.sd)}</span> : null
-											}
-										</td>
-										<td style={{ whiteSpace: "nowrap" }}>{line.C}</td>*/}
-									</tr>
-								)
-							})}
+							{terminalArray.map((line, idx) => (
+								<tr key={idx}>
+									<td>{line}</td>
+								</tr>
+							))}
 						</tbody>
 					</Table>
 				</CardBody>
