@@ -37,10 +37,23 @@ export default function InstanceDetailContainer(props) {
 	const serviceName = 'asab-remote-control';
 	const ASABRemoteControlAPI = props.app.axiosCreate(serviceName);
 
+	// Reference to the bottom of the terminal
+	const scrollToBottomRef = useRef(null);
+
 	/* WS for detail info of the instance */
 	let WSInstanceDetailUrl = undefined;
 	let WSInstanceDetailClient = null;
 	const isInstanceDetailMounted = useRef(null);
+
+	// Auto scroll to the bottom of the terminal
+	useEffect(() => {
+		if (terminalArray?.length > 0) {
+			scrollToBottomRef.current?.scrollIntoView({
+				behavior: "smooth",
+				block: "end"
+			});
+		}
+	}, [terminalArray])
 
 	// Connect to ws on page initialization, close ws connection on page leave
 	useEffect(() => {
@@ -165,8 +178,9 @@ export default function InstanceDetailContainer(props) {
 		}
 
 		WSTerminalClient.onmessage = (message) => {
-			console.log(message.data, "TERMINAL")
-			setTerminalArray(prevArray => [...prevArray, message.data]);
+			if (message.data) {
+				setTerminalArray(prevArray => [...prevArray, message.data]);
+			}
 			// setDetailLoading(false);
 			// if (IsJsonString(message.data) == true) {
 			// 	let retrievedData = JSON.parse(message.data);
@@ -354,7 +368,7 @@ export default function InstanceDetailContainer(props) {
 					</ButtonGroup>*/}
 				</CardHeader>
 				<CardBody className="log-console">
-					<Table size="sm" borderless>
+					<Table className="mb-0" size="sm" borderless>
 						{/*TODO: add auto scroll to the bottom*/}
 						<tbody className="text-monospace console-body">
 							{terminalArray.map((line, idx) => (
@@ -362,6 +376,9 @@ export default function InstanceDetailContainer(props) {
 									<td>{line}</td>
 								</tr>
 							))}
+							{/*Empty line with reference to autoscroll to the bottom of the terminal*/}
+							<tr ref={scrollToBottomRef}>
+							</tr>
 						</tbody>
 					</Table>
 				</CardBody>
