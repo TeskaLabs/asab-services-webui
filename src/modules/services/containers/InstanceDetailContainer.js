@@ -8,10 +8,10 @@ import { useLocation } from 'react-router-dom';
 
 import { Container, Card, CardBody, CardHeader, Table,
 	InputGroup, InputGroupText, Input, InputGroupAddon,
-	ButtonGroup, Button
+	ButtonGroup, Button, Row, Col
 } from 'reactstrap';
 
-import { CellContentLoader } from 'asab-webui';
+import { CellContentLoader, DateTime } from 'asab-webui';
 
 import { ActionButton } from "./components/ActionButton";
 import { IsJsonString } from "./components/IsJsonString";
@@ -235,7 +235,6 @@ export default function InstanceDetailContainer(props) {
 	const obtainGovernatorID = async () => {
 		try {
 			let response = await ASABRemoteControlAPI.get(`/governator/${instanceID}`);
-			console.log(response.data, "AHOOOJ")
 			setGovernatorID(response.data.data);
 		} catch(e) {
 			console.error(e);
@@ -265,6 +264,19 @@ export default function InstanceDetailContainer(props) {
 		setMetricsLoading(false);
 	}
 
+	// const valueValidator = (value) => {
+	// 	// let validTime = timeToString(value, "long");
+	// 	let ti = new Date(value);
+	// 	console.log(ti instanceof Date && !isNaN(ti))
+
+	// 	console.log(value, Date.parse(value), ti, "TIIIIIIII")
+	// 	if (ti.toString() === "Invalid Date") {
+	// 		return value;
+	// 	}
+	// 	if (ti)
+	// 	return <DateTime value={value} dateTimeFormat="long"/>;
+	// }
+
 	// TODO: obtain logs (ws)
 	return(
 		<Container className="svcs-container instance-detail-wrapper" fluid>
@@ -277,14 +289,99 @@ export default function InstanceDetailContainer(props) {
 				</CardHeader>
 				<CardBody className="changelog-body">
 					{metricsLoading ?
-						<CellContentLoader cols={1} rows={6} />
+						<CellContentLoader cols={2} rows={8} />
 					:
-						<ReactJson
-							src={detailWSData}
-							name={false}
-							collapsed={false}
-							theme={(theme === 'dark') ? "chalk" : "rjv-default"}
-						/>
+						detailWSData?.data && Object.keys(detailWSData.data).map((key, i) => (
+							key == "detail" ?
+								<div key={i}>
+								<br />
+								<Row>
+									<Col>
+										<span>{t("Detail")}</span>
+									</Col>
+								</Row>
+								{typeof detailWSData.data[key] == "object" &&
+								Object.keys(detailWSData.data[key]).map((detailKey, j) => (
+									<Row key={j}>
+										<Col sm={4}>
+											{detailKey}
+										</Col>
+										<Col sm={8}>
+											{typeof detailWSData.data[key][detailKey] == "object" ?
+												<ReactJson
+													src={detailWSData.data[key][detailKey]}
+													name={false}
+													collapsed={true}
+													enableClipboard={false}
+													displayObjectSize={false}
+													displayDataTypes={false}
+													displayArrayKey={false}
+													theme={(theme === 'dark') ? "chalk" : "rjv-default"}
+												/>
+											:
+												detailWSData.data[key][detailKey]
+											}
+										</Col>
+									</Row>
+									))}
+								</div>
+							:
+							key == "advertised_data" ?
+								<div key={i}>
+								<br />
+								<Row>
+									<Col>
+										{t("Advertised data")}
+									</Col>
+								</Row>
+								{typeof detailWSData.data[key] == "object" &&
+								Object.keys(detailWSData.data[key]).map((advertKey, k) => (
+									<Row key={k}>
+										<Col sm={4}>
+											{advertKey}
+										</Col>
+										<Col sm={8}>
+											{typeof detailWSData.data[key][advertKey] == "object" ?
+												<ReactJson
+													src={detailWSData.data[key][advertKey]}
+													name={false}
+													collapsed={true}
+													enableClipboard={false}
+													displayObjectSize={false}
+													displayDataTypes={false}
+													displayArrayKey={false}
+													theme={(theme === 'dark') ? "chalk" : "rjv-default"}
+												/>
+											:
+												detailWSData.data[key][advertKey]
+											}
+										</Col>
+									</Row>
+									))}
+								</div>
+							:
+							<Row key={i}>
+								<Col sm={4}>
+									{key}
+								</Col>
+								<Col sm={8}>
+									{typeof detailWSData.data[key] == "object" ?
+										<ReactJson
+											src={detailWSData.data[key]}
+											name={false}
+											collapsed={true}
+											enableClipboard={false}
+											displayObjectSize={false}
+											displayDataTypes={false}
+											displayArrayKey={false}
+											theme={(theme === 'dark') ? "chalk" : "rjv-default"}
+										/>
+									:
+										detailWSData.data[key]
+									}
+								</Col>
+							</Row>
+							))
 					}
 				</CardBody>
 			</Card>
@@ -386,3 +483,4 @@ export default function InstanceDetailContainer(props) {
 		</Container>
 	)
 }
+

@@ -11,12 +11,12 @@
 		row-gap: .25rem;
 
 		grid-template-areas:
-			"b b b"
-			"b b b"
-			"c c c"
-			"c c c"
 			"d d d"
 			"d d d"
+			"c c c"
+			"c c c"
+			"b b b"
+			"b b b"
 			"a a a"
 			"a a a";
 	}
@@ -35,8 +35,8 @@
 	row-gap: .25rem;
 
 	grid-template-areas:
-		"b b d d"
-		"b b d d"
+		"d d b b"
+		"d d b b"
 		"c c a a"
 		"c c a a";
 }
@@ -62,6 +62,7 @@
 		.table {
 			.console-body {
 				font-size: 0.72rem;
+				/*font-size: 0.875rem;*/
 				color: $light;
 			}
 			tr {
