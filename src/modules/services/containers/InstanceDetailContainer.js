@@ -272,7 +272,7 @@ export default function InstanceDetailContainer(props) {
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
 						<i className="cil-info pr-2"></i>
-						{t("ASABServices|Detail info")}
+						{instanceID ? `${instanceID} ${t("ASABServices|Detail info")}` : t("ASABServices|Detail info")}
 					</div>
 				</CardHeader>
 				<CardBody className="changelog-body">
@@ -311,8 +311,8 @@ export default function InstanceDetailContainer(props) {
 			<Card className="instance-detail-metrics">
 				<CardHeader className="border-bottom">
 					<div className="card-header-title">
-						<i className="cil-info pr-2"></i>
-						{instanceID ? instanceID : t("ASABServices|Metrics")}
+						<i className="cil-speedometer pr-2"></i>
+						{t("ASABServices|Metrics")}
 					</div>
 				</CardHeader>
 				<CardBody className="h-100">
