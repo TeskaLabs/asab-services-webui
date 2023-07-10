@@ -365,7 +365,7 @@ export default function InstanceDetailContainer(props) {
 									{key}
 								</Col>
 								<Col sm={8}>
-									{typeof detailWSData.data[key] == "object" ?
+									{detailWSData.data[key] == undefined ? "N/A" : typeof detailWSData.data[key] == "object" ?
 										<ReactJson
 											src={detailWSData.data[key]}
 											name={false}
