@@ -267,18 +267,22 @@ export default function InstanceDetailContainer(props) {
 		setMetricsLoading(false);
 	}
 
-	// const valueValidator = (value) => {
-	// 	// let validTime = timeToString(value, "long");
-	// 	let ti = new Date(value);
-	// 	console.log(ti instanceof Date && !isNaN(ti))
-
-	// 	console.log(value, Date.parse(value), ti, "TIIIIIIII")
-	// 	if (ti.toString() === "Invalid Date") {
-	// 		return value;
-	// 	}
-	// 	if (ti)
-	// 	return <DateTime value={value} dateTimeFormat="long"/>;
-	// }
+	// TODO: Replace with Schema
+	// Validate values and convert them with DateTime component if considered as a timestamp or date
+	const renderValueValidation = (value) => {
+		// Regular expressions for date and timestamp patterns
+		const datePattern = /\d{4}-\d{2}-\d{2}/;
+		const timestampPattern = /^\d{10,}(\.\d+)?$/;
+		// Check if the value matches the date or timestamp pattern
+		if (datePattern.test(value) || timestampPattern.test(value)) {
+			let ti = new Date(value);
+			if (ti.toString() === "Invalid Date") {
+				return value;
+			}
+			return <DateTime value={value} dateTimeFormat="long"/>
+		}
+		return value;
+	};
 
 	// TODO: obtain logs (ws)
 	return(
@@ -322,7 +326,7 @@ export default function InstanceDetailContainer(props) {
 													theme={(theme === 'dark') ? "chalk" : "rjv-default"}
 												/>
 											:
-												detailWSData.data[key][detailKey]
+												renderValueValidation(detailWSData.data[key][detailKey])
 											}
 										</Col>
 									</Row>
@@ -356,7 +360,7 @@ export default function InstanceDetailContainer(props) {
 													theme={(theme === 'dark') ? "chalk" : "rjv-default"}
 												/>
 											:
-												detailWSData.data[key][advertKey]
+												renderValueValidation(detailWSData.data[key][advertKey])
 											}
 										</Col>
 									</Row>
@@ -380,7 +384,7 @@ export default function InstanceDetailContainer(props) {
 											theme={(theme === 'dark') ? "chalk" : "rjv-default"}
 										/>
 									:
-										detailWSData.data[key]
+										renderValueValidation(detailWSData.data[key])
 									}
 								</Col>
 							</Row>
