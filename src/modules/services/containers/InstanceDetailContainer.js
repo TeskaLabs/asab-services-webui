@@ -22,7 +22,6 @@ export default function InstanceDetailContainer(props) {
 
 	const theme = useSelector(state => state.theme);
 
-	const [ consoleContent, setConsoleConent ] = useState([]);
 	const [ changelogContent, setChangelogConent ] = useState("");
 	const [ changelogLoading, setChangelogLoading ] = useState(true);
 	const [ metricsLoading, setMetricsLoading ] = useState(true);
@@ -45,13 +44,17 @@ export default function InstanceDetailContainer(props) {
 	let WSInstanceDetailClient = null;
 	const isInstanceDetailMounted = useRef(null);
 
-	// Auto scroll to the bottom of the terminal
 	useEffect(() => {
+		// Auto scroll to the bottom of the terminal
 		if (terminalArray?.length > 0) {
 			scrollToBottomRef.current?.scrollIntoView({
 				behavior: "smooth",
 				block: "end"
 			});
+		}
+		// Limit terminal window row count to 500
+		if (terminalArray?.length > 500) {
+			setTerminalArray((prevArray) => prevArray.slice(1));
 		}
 	}, [terminalArray])
 
